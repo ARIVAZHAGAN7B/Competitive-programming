@@ -7,7 +7,9 @@ I aim to solve one problem every day and improve my problem-solving and coding s
 
 | Date | Problem | Solution |
 | :--: | :-----: | :------: |
-| YYYY-MM-DD | [Problem Name](https://leetcode.com/problems/problem-name/) | [Solution](./path/to/solution.cpp) |
+| YYYY-MM-DD | [Problem Name] | [Solution] |
+| 2025-04-21 | [Problem Name](https://leetcode.com/problems/count-the-hidden-sequences/description/) | [Solution]() |
+| 2025-04-21 | [Problem Name](https://leetcode.com/problems/count-the-number-of-ideal-arrays/description/]) | [Solution]() |
 
 _(Update this table daily!)_
 
