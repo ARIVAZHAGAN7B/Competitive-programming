@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int countLargestGroup(int n) {
+        int arr[37] = {0}; // Maximum sum of digits for n <= 10000 is 36
+        for (int i = 1; i <= n; i++) {
+            int sum = 0;
+            int temp = i;
+            while (temp > 0) {
+                sum += temp % 10;
+                temp /= 10;
+            }
+            arr[sum]++;
+        }
+        
+        int maxCount = 0;
+        for (int i = 0; i < 37; i++) {
+            if (arr[i] > maxCount) {
+                maxCount = arr[i];
+            }
+        }
+        
+        int groups = 0;
+        for (int i = 0; i < 37; i++) {
+            if (arr[i] == maxCount) {
+                groups++;
+            }
+        }
+        
+        return groups;
+    }
+};
