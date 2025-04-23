@@ -9,7 +9,8 @@ I aim to solve one problem every day and improve my problem-solving and coding s
 | :--: | :-----: | :------: |
 | YYYY-MM-DD | [Problem Name] | [Solution] |
 | 2025-04-21 | [Problem Name](https://leetcode.com/problems/count-the-hidden-sequences/description/) | [Solution](./Competitive-programming/) |
-| 2025-04-21 | [Problem Name](https://leetcode.com/problems/count-the-number-of-ideal-arrays/description/]) | [Solution](./Competitive-pragramming/) |
+| 2025-04-21 | [Problem Name](https://leetcode.com/problems/count-the-number-of-ideal-arrays/description/) | [Solution](./Competitive-pragramming/) |
+| 2025-04-21 | [Problem Name](https://leetcode.com/problems/count-largest-group/description/) | [Solution](./Competitive-pragramming/) |
 
 _(Update this table daily!)_
 
