@@ -1,1 +1,166 @@
+Problem 1
 
+class Solution {
+public:
+    int countCoveredBuildings(int n, vector<vector<int>>& buildings) {
+        unordered_map<int, set<int>> rowMap; // x -> set of y's
+        unordered_map<int, set<int>> colMap; // y -> set of x's
+        
+        for (auto& b : buildings) {
+            int x = b[0];
+            int y = b[1];
+            rowMap[x].insert(y);
+            colMap[y].insert(x);
+        }
+        
+        int covered = 0;
+        
+        for (auto& b : buildings) {
+            int x = b[0];
+            int y = b[1];
+            
+            // Check in rowMap[x]: any y' < y (left), any y' > y (right)
+            auto& row = rowMap[x];
+            auto itLeft = row.lower_bound(y);
+            bool hasLeft = (itLeft != row.begin());
+            
+            auto itRight = row.upper_bound(y);
+            bool hasRight = (itRight != row.end());
+            
+            // Check in colMap[y]: any x' < x (up), any x' > x (down)
+            auto& col = colMap[y];
+            auto itUp = col.lower_bound(x);
+            bool hasUp = (itUp != col.begin());
+            
+            auto itDown = col.upper_bound(x);
+            bool hasDown = (itDown != col.end());
+            
+            if (hasLeft && hasRight && hasUp && hasDown) {
+                covered++;
+            }
+        }
+        
+        return covered;
+    }
+};
+
+
+
+
+
+Problem 2
+
+class Solution {
+public:
+    vector<int> quenlorvax;
+    int n, k;
+    vector<int> nums;
+    vector<int> result;
+    bool found = false;
+    bool dp[1 << 13][105]; // (mask, mod) -> visited
+    
+    void dfs(int mask, int mod, vector<int>& path) {
+        if (found) return;
+        
+        if (mask == (1 << n) - 1) { // All numbers used
+            if (mod == 0) {
+                result = path;
+                found = true;
+            }
+            return;
+        }
+        
+        if (dp[mask][mod]) return; // Already visited
+        dp[mask][mod] = true;
+        
+        for (int i = 0; i < n; ++i) {
+            if ((mask >> i) & 1) continue; // already used
+            
+            int len = to_string(nums[i]).size();
+            int new_mod = mod;
+            for (int j = 0; j < len; ++j) {
+                new_mod = (new_mod * 10) % k;
+            }
+            new_mod = (new_mod + nums[i]) % k;
+            
+            path.push_back(nums[i]);
+            dfs(mask | (1 << i), new_mod, path);
+            path.pop_back();
+        }
+    }
+    
+    vector<int> concatenatedDivisibility(vector<int>& nums_, int k_) {
+        nums = nums_;
+        quenlorvax = nums; // save input midway
+        k = k_;
+        n = nums.size();
+        
+        sort(nums.begin(), nums.end()); // to make sure smallest lex comes first
+        memset(dp, 0, sizeof(dp));
+        
+        vector<int> path;
+        dfs(0, 0, path);
+        
+        return result;
+    }
+};
+
+
+
+Problem 3
+
+
+class Solution {
+public:
+    vector<int> quenlorvax;
+    int n, k;
+    vector<int> nums;
+    vector<int> result;
+    bool found = false;
+    bool dp[1 << 13][105]; // (mask, mod) -> visited
+    
+    void dfs(int mask, int mod, vector<int>& path) {
+        if (found) return;
+        
+        if (mask == (1 << n) - 1) { // All numbers used
+            if (mod == 0) {
+                result = path;
+                found = true;
+            }
+            return;
+        }
+        
+        if (dp[mask][mod]) return; // Already visited
+        dp[mask][mod] = true;
+        
+        for (int i = 0; i < n; ++i) {
+            if ((mask >> i) & 1) continue; // already used
+            
+            int len = to_string(nums[i]).size();
+            int new_mod = mod;
+            for (int j = 0; j < len; ++j) {
+                new_mod = (new_mod * 10) % k;
+            }
+            new_mod = (new_mod + nums[i]) % k;
+            
+            path.push_back(nums[i]);
+            dfs(mask | (1 << i), new_mod, path);
+            path.pop_back();
+        }
+    }
+    
+    vector<int> concatenatedDivisibility(vector<int>& nums_, int k_) {
+        nums = nums_;
+        quenlorvax = nums; // save input midway
+        k = k_;
+        n = nums.size();
+        
+        sort(nums.begin(), nums.end()); // to make sure smallest lex comes first
+        memset(dp, 0, sizeof(dp));
+        
+        vector<int> path;
+        dfs(0, 0, path);
+        
+        return result;
+    }
+};
