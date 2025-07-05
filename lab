@@ -1,0 +1,117 @@
+APP.vue
+<template>
+  <ImageGallery />
+</template>
+
+<script>
+import ImageGallery from './components/ImageGallery.vue'
+
+export default {
+  name: 'App',
+  components: {
+    ImageGallery
+  }
+}
+</script>
+
+
+ImageGallery.vue
+<template>
+  <div>
+    <h2>{{ galleryTitle }}</h2>
+    <div class="gallery">
+      <ImageCard
+        v-for="img in images"
+        :key="img.id"
+        :image="img"
+        :isSelected="selectedImage && selectedImage.id === img.id"
+        @select="selectImage"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import ImageCard from './ImageCard.vue'
+
+export default {
+  name: 'ImageGallery',
+  components: {
+    ImageCard
+  },
+  data() {
+    return {
+      images: [
+        { id: 1, src: 'https://picsum.photos/200/200?random=1', alt: 'Image 1' },
+        { id: 2, src: 'https://picsum.photos/200/200?random=2', alt: 'Image 2' },
+        { id: 3, src: 'https://picsum.photos/200/200?random=3', alt: 'Image 3' },
+        { id: 4, src: 'https://picsum.photos/200/200?random=4', alt: 'Image 4' }
+      ],
+      selectedImage: null
+    }
+  },
+  computed: {
+    galleryTitle() {
+      return this.selectedImage
+        ? `Selected: ${this.selectedImage.alt}`
+        : 'Select an Image'
+    }
+  },
+  methods: {
+    selectImage(img) {
+      this.selectedImage = img
+    }
+  }
+}
+</script>
+
+<style scoped>
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+</style>
+
+ImageCard.vue
+<template>
+  <div
+    class="image-card"
+    :class="{ selected: isSelected }"
+    @click="$emit('select', image)"
+  >
+    <img :src="image.src" :alt="image.alt" width="100%" />
+    <p>{{ image.alt }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ImageCard',
+  props: {
+    image: Object,
+    isSelected: Boolean
+  }
+}
+</script>
+
+<style scoped>
+.image-card {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+}
+.image-card:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.selected {
+  border: 2px solid #42b983;
+}
+</style>
+
+run
+npm install -g @vue/cli
+vue create vue-gallery
+cd vue-gallery
+npm run serve
