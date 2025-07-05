@@ -15,7 +15,9 @@ export default {
 </script>
 
 
+
 ImageGallery.vue
+
 <template>
   <div>
     <h2>{{ galleryTitle }}</h2>
@@ -32,8 +34,11 @@ ImageGallery.vue
     </div>
 
     <!-- Zoom Modal -->
-    <div v-if="zoomedImage" class="modal" @click="zoomedImage = null">
-      <img :src="zoomedImage.src" :alt="zoomedImage.alt" />
+    <div v-if="zoomedImage" class="modal" @click.self="zoomedImage = null">
+      <div class="modal-content">
+        <img :src="zoomedImage.src" :alt="zoomedImage.alt" />
+        <button class="close-btn" @click="zoomedImage = null">✖</button>
+      </div>
     </div>
   </div>
 </template>
@@ -47,10 +52,10 @@ export default {
   data() {
     return {
       images: [
-        { id: 1, src: 'https://picsum.photos/200/200?random=1', alt: 'Image 1', favorite: false },
-        { id: 2, src: 'https://picsum.photos/200/200?random=2', alt: 'Image 2', favorite: false },
-        { id: 3, src: 'https://picsum.photos/200/200?random=3', alt: 'Image 3', favorite: false },
-        { id: 4, src: 'https://picsum.photos/200/200?random=4', alt: 'Image 4', favorite: false }
+        { id: 1, src: 'https://picsum.photos/400/300?random=1', alt: 'Image 1', favorite: false },
+        { id: 2, src: 'https://picsum.photos/400/300?random=2', alt: 'Image 2', favorite: false },
+        { id: 3, src: 'https://picsum.photos/400/300?random=3', alt: 'Image 3', favorite: false },
+        { id: 4, src: 'https://picsum.photos/400/300?random=4', alt: 'Image 4', favorite: false }
       ],
       selectedImage: null,
       zoomedImage: null
@@ -72,7 +77,16 @@ export default {
     },
     zoomImage(img) {
       this.zoomedImage = img
+    },
+    handleEsc(e) {
+      if (e.key === 'Escape') this.zoomedImage = null
     }
+  },
+  mounted() {
+    document.addEventListener('keydown', this.handleEsc)
+  },
+  beforeDestroy() {
+    document.removeEventListener('keydown', this.handleEsc)
   }
 }
 </script>
@@ -83,23 +97,45 @@ export default {
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1rem;
 }
+
 .modal {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
-.modal img {
+
+.modal-content {
+  position: relative;
   max-width: 90%;
   max-height: 90%;
-  border: 4px solid #fff;
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto;
+  border: 4px solid white;
   border-radius: 10px;
 }
+
+.close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: white;
+  color: black;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 5px 10px;
+}
 </style>
+
 
 ImageCard.vue
 <template>
@@ -135,7 +171,6 @@ export default {
   border: 1px solid #ccc;
   padding: 0.5rem;
   transition: transform 0.2s ease;
-  position: relative;
 }
 .image-card:hover {
   transform: scale(1.05);
@@ -160,6 +195,7 @@ export default {
   background: #ddd;
 }
 </style>
+
 
 
 run
