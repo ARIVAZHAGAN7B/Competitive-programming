@@ -26,7 +26,14 @@ ImageGallery.vue
         :image="img"
         :isSelected="selectedImage && selectedImage.id === img.id"
         @select="selectImage"
+        @toggle-fav="toggleFavorite"
+        @zoom="zoomImage"
       />
+    </div>
+
+    <!-- Zoom Modal -->
+    <div v-if="zoomedImage" class="modal" @click="zoomedImage = null">
+      <img :src="zoomedImage.src" :alt="zoomedImage.alt" />
     </div>
   </div>
 </template>
@@ -36,18 +43,17 @@ import ImageCard from './ImageCard.vue'
 
 export default {
   name: 'ImageGallery',
-  components: {
-    ImageCard
-  },
+  components: { ImageCard },
   data() {
     return {
       images: [
-        { id: 1, src: 'https://picsum.photos/200/200?random=1', alt: 'Image 1' },
-        { id: 2, src: 'https://picsum.photos/200/200?random=2', alt: 'Image 2' },
-        { id: 3, src: 'https://picsum.photos/200/200?random=3', alt: 'Image 3' },
-        { id: 4, src: 'https://picsum.photos/200/200?random=4', alt: 'Image 4' }
+        { id: 1, src: 'https://picsum.photos/200/200?random=1', alt: 'Image 1', favorite: false },
+        { id: 2, src: 'https://picsum.photos/200/200?random=2', alt: 'Image 2', favorite: false },
+        { id: 3, src: 'https://picsum.photos/200/200?random=3', alt: 'Image 3', favorite: false },
+        { id: 4, src: 'https://picsum.photos/200/200?random=4', alt: 'Image 4', favorite: false }
       ],
-      selectedImage: null
+      selectedImage: null,
+      zoomedImage: null
     }
   },
   computed: {
@@ -60,6 +66,12 @@ export default {
   methods: {
     selectImage(img) {
       this.selectedImage = img
+    },
+    toggleFavorite(img) {
+      img.favorite = !img.favorite
+    },
+    zoomImage(img) {
+      this.zoomedImage = img
     }
   }
 }
@@ -70,6 +82,22 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1rem;
+}
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid #fff;
+  border-radius: 10px;
 }
 </style>
 
@@ -82,6 +110,13 @@ ImageCard.vue
   >
     <img :src="image.src" :alt="image.alt" width="100%" />
     <p>{{ image.alt }}</p>
+
+    <div class="card-actions">
+      <button @click.stop="$emit('zoom', image)">🔍 Zoom</button>
+      <button @click.stop="$emit('toggle-fav', image)">
+        {{ image.favorite ? '⭐ Unfav' : '☆ Fav' }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -100,6 +135,7 @@ export default {
   border: 1px solid #ccc;
   padding: 0.5rem;
   transition: transform 0.2s ease;
+  position: relative;
 }
 .image-card:hover {
   transform: scale(1.05);
@@ -108,7 +144,23 @@ export default {
 .selected {
   border: 2px solid #42b983;
 }
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+.card-actions button {
+  font-size: 0.9rem;
+  padding: 0.2rem 0.5rem;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+}
+.card-actions button:hover {
+  background: #ddd;
+}
 </style>
+
 
 run
 npm install -g @vue/cli
