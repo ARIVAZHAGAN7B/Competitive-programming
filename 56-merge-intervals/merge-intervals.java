@@ -1,24 +1,10 @@
 class Solution {
 
-    public void Sort(int[][] arr) {
-        int row = arr.length;
-
-        for (int i = 0; i < row - 1; i++) {
-            for (int j = 0; j < row - 1 - i; j++) {
-                if (arr[j][0] > arr[j + 1][0]) {
-                    int[] temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
-    }
-
     public int[][] merge(int[][] intervals) {
         int n = intervals.length;
         if (n == 0) return new int[0][0];
 
-        Sort(intervals);
+        Arrays.sort(intervals, (a,b) -> Integer.compare(a[0] , b[0]));
 
         ArrayList<int[]> res = new ArrayList<>();
 
