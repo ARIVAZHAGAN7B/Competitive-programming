@@ -6,6 +6,9 @@ class Solution {
         return count_r(root.left) + count_r(root.right) + 1;
     }
     public int countNodes(TreeNode root) {
-        return count_r(root);
+        if(root == null){
+            return 0;
+        }
+        return countNodes(root.left) + countNodes(root.right) + 1;
     }
 }
