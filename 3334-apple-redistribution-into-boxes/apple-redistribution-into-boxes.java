@@ -8,9 +8,6 @@ class Solution {
             capacity[i] = capacity[capacity.length-i-1];
             capacity[capacity.length-i-1] = temp;
         }
-        for(int i:capacity){
-            System.out.println(i);
-        }
         while(sum > 0){
             sum-= capacity[index];
             index++;
