@@ -1,11 +1,12 @@
 class Solution {
     public int mirrorDistance(int n) {
-        String s = Integer.toString(n);
-        StringBuilder sb = new StringBuilder(s);
-        sb.reverse();
-        String a = sb.toString();
-        Integer n1 = Integer.parseInt(a);
-        System.out.print(n1);
-        return Math.abs(n-n1);
+        int n1=0;
+        int ori = n;
+        while(n>0){
+            int temp = n%10;
+            n1 = (n1 * 10) + temp;
+            n/=10;
+        }
+        return Math.abs(ori-n1);
     }
 }
